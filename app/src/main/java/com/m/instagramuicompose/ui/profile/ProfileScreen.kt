@@ -4,49 +4,28 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.m.instagramuicompose.R
 
-data class ImageWithText(
-    val image: Painter,
-    val text: String
-)
 
 @ExperimentalFoundationApi
 @Composable
@@ -58,6 +37,8 @@ fun ProfileScreen() {
             modifier = Modifier
                 .padding(10.dp)
         )
+
+        ProfileSection()
 
     }
 }
@@ -139,4 +120,97 @@ fun TopBar(
                 .layoutId("iconMenu")
         )
     }
+}
+
+
+@Composable
+fun ProfileSection(
+    modifier: Modifier = Modifier
+) {
+
+    Column(modifier = modifier.fillMaxWidth()) {
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            RoundImage(
+                image = painterResource(id = R.drawable.profile_me),
+                modifier = modifier
+                    .width(100.dp)
+                    .weight(3f)
+            )
+            
+            Spacer(modifier = Modifier.width(10.dp))
+
+
+            StatSection(modifier = modifier.weight(7f))
+        }
+
+    }
+
+}
+
+@Composable
+fun RoundImage(
+    image: Painter,
+    modifier: Modifier = Modifier
+) {
+
+    Image(
+        painter = image, contentDescription = null,
+        modifier = modifier
+            .aspectRatio(1f, matchHeightConstraintsFirst = true)
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = CircleShape
+            )
+            .padding(3.dp)
+            .clip(CircleShape)
+    )
+
+
+}
+
+@Composable
+fun StatSection(modifier: Modifier = Modifier) {
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        ProfileStat(numberText = "0", text = "Posts")
+        ProfileStat(numberText = "97", text = "Followers")
+        ProfileStat(numberText = "178", text = "Following")
+    }
+
+}
+
+@Composable
+fun ProfileStat(
+    modifier: Modifier = Modifier,
+    numberText: String,
+    text: String
+) {
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Text(
+            text = numberText,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = text)
+
+    }
+
 }
